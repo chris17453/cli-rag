@@ -46,13 +46,13 @@ wget https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Ll
   -O ~/.cli-rag/models/Llama-3.2-3B-Instruct-Q4_K_M.gguf
 
 # Ingest some content
-./clirag.sh ingest https://en.wikipedia.org/wiki/Retrieval-augmented_generation
+./scripts/clirag.sh ingest https://en.wikipedia.org/wiki/Retrieval-augmented_generation
 
 # Ask questions (standard mode)
-./clirag.sh query
+./scripts/clirag.sh query
 
 # Ask questions (agentic mode with reasoning)
-./clirag.sh query --agentic --show-reasoning
+./scripts/clirag.sh query --agentic --show-reasoning
 ```
 
 ## Installation
@@ -90,7 +90,7 @@ sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
 dotnet build -c Release
 
 # The wrapper script sets up CUDA paths
-chmod +x clirag.sh
+chmod +x scripts/clirag.sh
 ```
 
 ## Usage
@@ -99,37 +99,37 @@ chmod +x clirag.sh
 
 ```bash
 # Ingest a single URL
-./clirag.sh ingest <url>
+./scripts/clirag.sh ingest <url>
 
 # Crawl an entire website (stays within domain)
-./clirag.sh crawl <url> [--max-pages 50]
+./scripts/clirag.sh crawl <url> [--max-pages 50]
 
 # Interactive query mode
-./clirag.sh query                    # Standard RAG
-./clirag.sh query --agentic          # Agentic RAG with reflection
-./clirag.sh query -a -r              # Agentic + show reasoning steps
+./scripts/clirag.sh query                    # Standard RAG
+./scripts/clirag.sh query --agentic          # Agentic RAG with reflection
+./scripts/clirag.sh query -a -r              # Agentic + show reasoning steps
 
 # List all URLs by type
-./clirag.sh list                     # Shows both ingested and crawled
+./scripts/clirag.sh list                     # Shows both ingested and crawled
 
 # List only crawled websites
-./clirag.sh list-crawled
+./scripts/clirag.sh list-crawled
 
 # Clear database
-./clirag.sh clear                    # Prompts for confirmation
-./clirag.sh clear --force            # Skip confirmation
+./scripts/clirag.sh clear                    # Prompts for confirmation
+./scripts/clirag.sh clear --force            # Skip confirmation
 ```
 
 ### Examples
 
 **Crawl a documentation site:**
 ```bash
-./clirag.sh crawl https://docs.example.com --max-pages 100
+./scripts/clirag.sh crawl https://docs.example.com --max-pages 100
 ```
 
 **Query with agentic reasoning:**
 ```bash
-./clirag.sh query --agentic --show-reasoning
+./scripts/clirag.sh query --agentic --show-reasoning
 
 > What are the key differences between standard and agentic RAG?
 
@@ -205,10 +205,10 @@ graph TB
     Embed --> VDB[(VectorDB)]
 
     Query --> Agent{RAG Mode?}
-    Agent -->|Standard| SimpleRAG[AgenticRAG]
+    Agent -->|Standard| StandardRAG[Standard RAG]
     Agent -->|Agentic| TrueRAG[TrueAgenticRAG]
 
-    SimpleRAG --> VDB
+    StandardRAG --> VDB
     TrueRAG --> Plan[Query Planner]
     Plan --> MultiHop[Multi-hop Retrieval]
     MultiHop --> VDB
@@ -216,7 +216,7 @@ graph TB
     Reflect --> Refine[Answer Refinement]
 
     VDB --> LLM[LocalLLM]
-    SimpleRAG --> LLM
+    StandardRAG --> LLM
     Refine --> LLM
 
     LLM --> Response[Answer + Sources]
@@ -230,24 +230,29 @@ graph TB
 
 ```
 cli-rag/
-├── Agent/                    # RAG implementations
-│   ├── AgenticRAG.cs        # Standard RAG with simple query decomposition
-│   └── TrueAgenticRAG.cs    # Full agentic pipeline with reflection
-├── Config/
-│   └── AppConfig.cs         # Configuration management
-├── Embeddings/
-│   └── LocalEmbeddings.cs   # ONNX-based sentence transformers
-├── Ingestion/
-│   ├── DocumentProcessor.cs # Text chunking with overlap
-│   ├── UrlFetcher.cs        # HTTP client + HTML parsing
-│   └── WebCrawler.cs        # Domain-restricted web crawler
-├── LLM/
-│   └── LocalLLM.cs          # LLamaSharp wrapper for GGUF models
-├── VectorStore/
-│   └── VectorDb.cs          # SQLite + binary BLOB embeddings
-├── Program.cs               # CLI entry point
-├── CliRag.csproj            # Project configuration
-└── clirag.sh                # Wrapper script for CUDA paths
+├── src/                      # Source code
+│   ├── Agent/               # RAG implementations
+│   │   ├── AgenticRAG.cs    # Standard RAG with simple query decomposition
+│   │   └── TrueAgenticRAG.cs # Full agentic pipeline with reflection
+│   ├── Config/
+│   │   └── AppConfig.cs     # Configuration management
+│   ├── Embeddings/
+│   │   └── LocalEmbeddings.cs # ONNX-based sentence transformers
+│   ├── Ingestion/
+│   │   ├── DocumentProcessor.cs # Text chunking with overlap
+│   │   ├── UrlFetcher.cs    # HTTP client + HTML parsing
+│   │   └── WebCrawler.cs    # Domain-restricted web crawler
+│   ├── LLM/
+│   │   └── LocalLLM.cs      # LLamaSharp wrapper for GGUF models
+│   ├── VectorStore/
+│   │   └── VectorDb.cs      # SQLite + binary BLOB embeddings
+│   └── Program.cs           # CLI entry point
+├── scripts/
+│   └── clirag.sh            # Wrapper script for CUDA paths
+├── docs/                     # Documentation
+├── assets/                   # Demo recordings
+├── build/                    # Build outputs (gitignored)
+└── CliRag.csproj            # Project configuration
 ```
 
 ## Performance
@@ -353,10 +358,10 @@ Place models in `~/.cli-rag/models/`
 nvidia-smi
 
 # Verify library paths
-ldd ./bin/Release/net8.0/CliRag | grep cuda
+ldd ./build/bin/Release/net8.0/CliRag | grep cuda
 
 # Use the wrapper script (sets LD_LIBRARY_PATH)
-./clirag.sh query
+./scripts/clirag.sh query
 ```
 
 ### Out of Memory

@@ -336,7 +336,7 @@ public async Task<string> GenerateAsync(string prompt)
 
 ### 5. Query Engine
 
-#### Standard RAG (`Agent/AgenticRAG.cs`)
+#### Standard RAG (`src/Agent/AgenticRAG.cs`)
 Basic retrieval-augmented generation.
 
 **Flow:**
@@ -368,7 +368,7 @@ Based on the above information, {query}<|eot_id|>
 ANSWER:
 ```
 
-#### Agentic RAG (`Agent/TrueAgenticRAG.cs`)
+#### Agentic RAG (`src/Agent/TrueAgenticRAG.cs`)
 Advanced multi-step reasoning with self-reflection.
 
 **5-Step Pipeline:**
