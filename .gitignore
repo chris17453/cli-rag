@@ -1,0 +1,134 @@
+# .NET Build Outputs
+bin/
+obj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+
+# Models (Large Files)
+*.gguf
+*.bin
+*.pt
+*.safetensors
+*.onnx
+models/
+embeddings/
+
+# Database Files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+vectors.db
+
+# User Data Directory
+.cli-rag/
+!.cli-rag/.gitkeep
+
+# IDE and Editor Files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.swn
+.atom/
+.sublime-project
+.sublime-workspace
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Temporary Files
+*.tmp
+*.temp
+*.log
+*.bak
+*.cache
+
+# Python (if used for scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Node (if used for tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Rust (if llama.cpp built locally)
+target/
+Cargo.lock
+
+# CUDA Build Artifacts
+*.cubin
+*.fatbin
+*.ptx
+
+# Documentation Build
+_site/
+.jekyll-cache/
+
+# Backup Files
+*.orig
+*.backup
+
+# Config Overrides (keep template)
+config.local.json
+
+# Secrets
+*.key
+*.pem
+*.env
+.env.local
+secrets.json
+appsettings.Development.json
