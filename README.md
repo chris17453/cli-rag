@@ -8,6 +8,10 @@
 
 A command-line tool for intelligent document search and Q&A using local LLMs. Built for engineers who want full control over their RAG pipeline without vendor lock-in or API costs.
 
+## Demo
+
+![CLI-RAG Demo](assets/cli-rag-demo.gif)
+
 ## Features
 
 ### Core Capabilities

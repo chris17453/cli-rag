@@ -8,7 +8,20 @@
     <Nullable>enable</Nullable>
     <PublishAot>false</PublishAot>
     <InvariantGlobalization>false</InvariantGlobalization>
+
+    <!-- Source and Build Directories -->
+    <BaseIntermediateOutputPath>build/obj/</BaseIntermediateOutputPath>
+    <BaseOutputPath>build/bin/</BaseOutputPath>
+    <OutputPath>build/bin/$(Configuration)/</OutputPath>
+
+    <!-- Enable custom source directory -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Source Files -->
+    <Compile Include="src/**/*.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- CLI Framework -->
